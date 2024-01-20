@@ -6,106 +6,380 @@
     <title>Diabetes Prediction</title>
 </head>
 <body>
-    <h1>Diabetes Prediction using ML</h1>
-    <form action="/diabetes" method="post">
-        <!-- Input fields for diabetes prediction -->
-        <label for="Age">Age:</label>
-        <input type="text" name="Age" id="Age" required><br>
 
-        <label for="Gender">Gender:</label>
-        <select name="Gender" id="Gender" required>
-            <option value="1">Male</option>
-            <option value="0">Female</option>
-        </select><br>
+    <div class="formbold-main-wrapper">
+        <!-- Author: FormBold Team -->
+        <!-- Learn More: https://formbold.com -->
+        <div class="formbold-form-wrapper">
+            <h1>Diabetes Risk Prediction</h1>
+            <p>This section can be used by anyone at the comfort of their home.</p>
 
-        <label for="Polyuria">Polyuria - Excessive Urination:</label>
-        <select name="Polyuria" id="Polyuria" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Polydipsia">Polydipsia - Abnormal Thirst Increase:</label>
-        <select name="Polydipsia" id="Polydipsia" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Weightloss">Sudden weight loss:</label>
-        <select name="Weightloss" id="Weightloss" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="weakness">Weakness:</label>
-        <select name="weakness" id="weakness" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Polyphagia">Polyphagia - Excessive Hunger:</label>
-        <select name="Polyphagia" id="Polyphagia" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Genitalthrush">Genital thrush - Itchy, irritation on genitals or thick white discharge on Genital areas:</label>
-        <select name="Genitalthrush" id="Genitalthrush" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="visualblurring">Visual blurring - Difficulty focusing your eyesight:</label>
-        <select name="visualblurring" id="visualblurring" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Itching">Itching:</label>
-        <select name="Itching" id="Itching" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Irritability">Irritability:</label>
-        <select name="Irritability" id="Irritability" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="delayedhealing">Delayed healing:</label>
-        <select name="delayedhealing" id="delayedhealing" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="partialparesis">Partial paresis - Weakening of muscles:</label>
-        <select name="partialparesis" id="partialparesis" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="musclestiffness">Muscle stiffness:</label>
-        <select name="musclestiffness" id="musclestiffness" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Alopecia">Alopecia - Sudden loss of hair:</label>
-        <select name="Alopecia" id="Alopecia" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <label for="Obesity">Obesity:</label>
-        <select name="Obesity" id="Obesity" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
-
-        <button type="submit">Predict Diabetes</button>
-    </form>
-    {% if diagnosis %}
-        <p>{{ diagnosis }}</p>
+            {% if diagnosis %}
+        <p>Results:
+            {{ diagnosis }}</p>
     {% endif %}
+          <!--<img src="your-image-url-here.jpg">-->
+          <form action="/diabetes" method="POST">
+      
+            <div class="formbold-mb-3">
+              <label for="Age" class="formbold-form-label">Age:</label>
+              <input
+                type="text"
+                name="Age"
+                id="Age"
+                class="formbold-form-input"
+                placeholder="Enter your age"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Gender" class="formbold-form-label">Gender:</label>
+              <select class="formbold-form-input" name="Gender" id="Gender" required>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Polyuria" class="formbold-form-label">Polyuria - Excessive Urination:</label>
+              <select class="formbold-form-input" name="Polyuria" id="Polyuria" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Polydipsia" class="formbold-form-label">Polydipsia - Abnormal Thirst Increase:</label>
+              <select class="formbold-form-input" name="Polydipsia" id="Polydipsia" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Weightloss" class="formbold-form-label">Sudden weight loss:</label>
+              <select class="formbold-form-input" name="Weightloss" id="Weightloss" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="weakness" class="formbold-form-label">Weakness:</label>
+              <select class="formbold-form-input" name="weakness" id="weakness" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Polyphagia" class="formbold-form-label">Polyphagia - Excessive Hunger:</label>
+              <select class="formbold-form-input" name="Polyphagia" id="Polyphagia" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Genitalthrush" class="formbold-form-label">Genital thrush - Itchy, irritation on genitals or thick white discharge on Genital areas:</label>
+              <select class="formbold-form-input" name="Genitalthrush" id="Genitalthrush" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="visualblurring" class="formbold-form-label">Visual blurring - Difficulty focusing your eyesight:</label>
+              <select class="formbold-form-input" name="visualblurring" id="visualblurring" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Itching" class="formbold-form-label">Itching:</label>
+              <select class="formbold-form-input" name="Itching" id="Itching" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Irritability" class="formbold-form-label">Irritability:</label>
+              <select class="formbold-form-input" name="Irritability" id="Irritability" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="delayedhealing" class="formbold-form-label">Delayed healing:</label>
+              <select class="formbold-form-input" name="delayedhealing" id="delayedhealing" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="partialparesis" class="formbold-form-label">Partial paresis - Weakening of muscles:</label>
+              <select class="formbold-form-input" name="partialparesis" id="partialparesis" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="musclestiffness" class="formbold-form-label">Muscle stiffness:</label>
+              <select class="formbold-form-input" name="musclestiffness" id="musclestiffness" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Alopecia" class="formbold-form-label">Alopecia - Sudden loss of hair:</label>
+              <select class="formbold-form-input" name="Alopecia" id="Alopecia" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="Obesity" class="formbold-form-label">Obesity:</label>
+              <select class="formbold-form-input" name="Obesity" id="Obesity" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-checkbox-wrapper">
+              <label for="supportCheckbox" class="formbold-checkbox-label">
+                <div class="formbold-relative">
+                  <input
+                    type="checkbox"
+                    id="supportCheckbox"
+                    class="formbold-input-checkbox"
+                  />
+                  <div class="formbold-checkbox-inner">
+                    <span class="formbold-opacity-0">
+                      <svg
+                        width="11"
+                        height="8"
+                        viewBox="0 0 11 8"
+                        class="formbold-stroke-current"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.81868 0.688604L4.16688 5.4878L2.05598 3.29507C1.70417 2.92271 1.1569 2.96409 0.805082 3.29507C0.453266 3.66742 0.492357 4.24663 0.805082 4.61898L3.30689 7.18407C3.54143 7.43231 3.85416 7.55642 4.16688 7.55642C4.47961 7.55642 4.79233 7.43231 5.02688 7.18407L10.0696 2.05389C10.4214 1.68154 10.4214 1.10233 10.0696 0.729976C9.71776 0.357624 9.17049 0.357625 8.81868 0.688604Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                I agree to the defined
+                <a href="#"> terms, conditions, and policies</a>
+              </label>
+            </div>
+      
+            <button class="formbold-btn" type="submit">Predict Diabetes</button>
+      
+          </form>
+          
+        </div>
+      </div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+        .formbold-mb-3 {
+          margin-bottom: 15px;
+        }
+        .formbold-relative {
+          position: relative;
+        }
+        .formbold-opacity-0 {
+          opacity: 0;
+        }
+        .formbold-stroke-current {
+          stroke: #ffffff;
+          z-index: 999;
+        }
+        #supportCheckbox:checked ~ div span {
+          opacity: 1;
+        }
+        #supportCheckbox:checked ~ div {
+          background: #6a64f1;
+          border-color: #6a64f1;
+        }
+      
+        .formbold-main-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 48px;
+        }
+      
+        .formbold-form-wrapper {
+          margin: 0 auto;
+          max-width: 570px;
+          width: 100%;
+          background: white;
+          padding: 40px;
+        }
+      
+        .formbold-img {
+          display: block;
+          margin: 0 auto 45px;
+        }
+      
+        .formbold-input-wrapp > div {
+          display: flex;
+          gap: 20px;
+        }
+      
+        .formbold-input-flex {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 15px;
+        }
+        .formbold-input-flex > div {
+          width: 50%;
+        }
+        .formbold-form-input {
+          width: 100%;
+          padding: 13px 22px;
+          border-radius: 5px;
+          border: 1px solid #dde3ec;
+          background: #ffffff;
+          font-weight: 500;
+          font-size: 16px;
+          color: #536387;
+          outline: none;
+          resize: none;
+        }
+        .formbold-form-input::placeholder,
+        select.formbold-form-input,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-text,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-month-field,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-day-field,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-year-field {
+          color: rgba(83, 99, 135, 0.5);
+        }
+      
+        .formbold-form-input:focus {
+          border-color: #6a64f1;
+          box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        .formbold-form-label {
+          color: #536387;
+          font-size: 14px;
+          line-height: 24px;
+          display: block;
+          margin-bottom: 10px;
+        }
+      
+        .formbold-checkbox-label {
+          display: flex;
+          cursor: pointer;
+          user-select: none;
+          font-size: 16px;
+          line-height: 24px;
+          color: #536387;
+        }
+        .formbold-checkbox-label a {
+          margin-left: 5px;
+          color: #6a64f1;
+        }
+        .formbold-input-checkbox {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+        .formbold-checkbox-inner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          margin-right: 16px;
+          margin-top: 2px;
+          border: 0.7px solid #dde3ec;
+          border-radius: 3px;
+        }
+      
+        .formbold-form-file {
+          padding: 12px;
+          font-size: 14px;
+          line-height: 24px;
+          color: rgba(83, 99, 135, 0.5);
+        }
+        .formbold-form-file::-webkit-file-upload-button {
+          display: none;
+        }
+        .formbold-form-file:before {
+          content: 'Upload';
+          display: inline-block;
+          background: #EEEEEE;
+          border: 0.5px solid #E7E7E7;
+          border-radius: 3px;
+          padding: 3px 12px;
+          outline: none;
+          white-space: nowrap;
+          -webkit-user-select: none;
+          cursor: pointer;
+          color: #637381;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          margin-right: 10px;
+        }
+      
+        .formbold-btn {
+          font-size: 16px;
+          border-radius: 5px;
+          padding: 14px 25px;
+          border: none;
+          font-weight: 500;
+          background-color: #6a64f1;
+          color: white;
+          cursor: pointer;
+          margin-top: 25px;
+        }
+        .formbold-btn:hover {
+          box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+      
+        .formbold-w-45 {
+          width: 45%;
+        }
+      </style>
 </body>
 </html>

@@ -6,78 +6,378 @@
     <title>Heart Disease Prediction</title>
 </head>
 <body>
-    <h1>Heart Disease Prediction using ML</h1>
-    <form action="/heart_disease" method="post">
-        <!-- Input fields for heart disease prediction -->
-        <label for="age">Age:</label>
-        <input type="number" name="age" id="age" required><br>
 
-        <label for="sex">Sex:</label>
-        <select name="sex" id="sex" required>
-            <option value="1">Male</option>
-            <option value="0">Female</option>
-        </select><br>
+    <div class="formbold-main-wrapper">
+        <!-- Author: FormBold Team -->
+        <!-- Learn More: https://formbold.com -->
 
-        <label for="cp">Chest Pain Type:</label>
-        <select name="cp" id="cp" required>
-            <option value="0">Typical Angina</option>
-            <option value="1">Atypical Angina</option>
-            <option value="2">Non-Anginal Pain</option>
-            <option value="3">Asymptomatic</option>
-        </select><br>
+        <div class="formbold-form-wrapper">
+          <!-- <img src="your-image-url-here.jpg"> -->
+          <h1>Heart Disease Risk Prediction</h1>
 
-        <label for="trestbps">Resting Blood Pressure (mm Hg):</label>
-        <input type="number" name="trestbps" id="trestbps" required><br>
+          {% if diagnosis %}
+          <p>{{ diagnosis }}</p>
+          {% endif %}
 
-        <label for="chol">Serum Cholesterol (mg/dl):</label>
-        <input type="number" name="chol" id="chol" required><br>
 
-        <label for="fbs">Fasting Blood Sugar &gt; 120 mg/dl:</label>
-        <select name="fbs" id="fbs" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
+          <form action="/heart_disease" method="POST">
+      
+            <div class="formbold-mb-3">
+              <label for="age" class="formbold-form-label">Age:</label>
+              <input
+                type="number"
+                name="age"
+                id="age"
+                class="formbold-form-input"
+                placeholder="Enter your age"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="sex" class="formbold-form-label">Sex:</label>
+              <select class="formbold-form-input" name="sex" id="sex" required>
+                <option value="1">Male</option>
+                <option value="0">Female</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="cp" class="formbold-form-label">Chest Pain Type:</label>
+              <select class="formbold-form-input" name="cp" id="cp" required>
+                <option value="0">Typical Angina</option>
+                <option value="1">Atypical Angina</option>
+                <option value="2">Non-Anginal Pain</option>
+                <option value="3">Asymptomatic</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="trestbps" class="formbold-form-label">Resting Blood Pressure (mm Hg):</label>
+              <input
+                type="number"
+                name="trestbps"
+                id="trestbps"
+                class="formbold-form-input"
+                placeholder="Enter resting blood pressure"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="chol" class="formbold-form-label">Serum Cholesterol (mg/dl):</label>
+              <input
+                type="number"
+                name="chol"
+                id="chol"
+                class="formbold-form-input"
+                placeholder="Enter serum cholesterol"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="fbs" class="formbold-form-label">Fasting Blood Sugar &gt; 120 mg/dl:</label>
+              <select class="formbold-form-input" name="fbs" id="fbs" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="restecg" class="formbold-form-label">Resting Electrocardiographic Results:</label>
+              <select class="formbold-form-input" name="restecg" id="restecg" required>
+                <option value="0">Normal</option>
+                <option value="1">ST-T Wave Abnormality</option>
+                <option value="2">Probable or Definite Left Ventricular Hypertrophy</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="thalach" class="formbold-form-label">Maximum Heart Rate Achieved:</label>
+              <input
+                type="number"
+                name="thalach"
+                id="thalach"
+                class="formbold-form-input"
+                placeholder="Enter maximum heart rate achieved"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="exang" class="formbold-form-label">Exercise Induced Angina:</label>
+              <select class="formbold-form-input" name="exang" id="exang" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="oldpeak" class="formbold-form-label">ST Depression Induced by Exercise Relative to Rest:</label>
+              <input
+                type="number"
+                name="oldpeak"
+                id="oldpeak"
+                class="formbold-form-input"
+                placeholder="Enter ST depression value"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="slope" class="formbold-form-label">Slope of the Peak Exercise ST Segment:</label>
+              <select class="formbold-form-input" name="slope" id="slope" required>
+                <option value="0">Upsloping</option>
+                <option value="1">Flat</option>
+                <option value="2">Downsloping</option>
+              </select>
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="ca" class="formbold-form-label">Number of Major Vessels Colored by Flourosopy:</label>
+              <input
+                type="number"
+                name="ca"
+                id="ca"
+                class="formbold-form-input"
+                placeholder="Enter the number of vessels"
+                required
+              />
+            </div>
+      
+            <div class="formbold-mb-3">
+              <label for="thal" class="formbold-form-label">Thalassemia:</label>
+              <select class="formbold-form-input" name="thal" id="thal" required>
+                <option value="1">Normal</option>
+                <option value="2">Fixed Defect</option>
+                <option value="3">Reversible Defect</option>
+              </select>
+            </div>
+      
+            <div class="formbold-checkbox-wrapper">
+              <label for="supportCheckbox" class="formbold-checkbox-label">
+                <div class="formbold-relative">
+                  <input
+                    type="checkbox"
+                    id="supportCheckbox"
+                    class="formbold-input-checkbox"
+                  />
+                  <div class="formbold-checkbox-inner">
+                    <span class="formbold-opacity-0">
+                      <svg
+                        width="11"
+                        height="8"
+                        viewBox="0 0 11 8"
+                        class="formbold-stroke-current"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.81868 0.688604L4.16688 5.4878L2.05598 3.29507C1.70417 2.92271 1.1569 2.96409 0.805082 3.29507C0.453266 3.66742 0.492357 4.24663 0.805082 4.61898L3.30689 7.18407C3.54143 7.43231 3.85416 7.55642 4.16688 7.55642C4.47961 7.55642 4.79233 7.43231 5.02688 7.18407L10.0696 2.05389C10.4214 1.68154 10.4214 1.10233 10.0696 0.729976C9.71776 0.357624 9.17049 0.357625 8.81868 0.688604Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                I agree to the defined
+                <a href="#"> terms, conditions, and policies</a>
+              </label>
+            </div>
+      
+            <button class="formbold-btn">Submit</button>
+      
+          </form>
+        </div>
+      </div>
 
-        <label for="restecg">Resting Electrocardiographic Results:</label>
-        <select name="restecg" id="restecg" required>
-            <option value="0">Normal</option>
-            <option value="1">ST-T Wave Abnormality</option>
-            <option value="2">Probable or Definite Left Ventricular Hypertrophy</option>
-        </select><br>
+      
 
-        <label for="thalach">Maximum Heart Rate Achieved:</label>
-        <input type="number" name="thalach" id="thalach" required><br>
 
-        <label for="exang">Exercise Induced Angina:</label>
-        <select name="exang" id="exang" required>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select><br>
 
-        <label for="oldpeak">ST Depression Induced by Exercise Relative to Rest:</label>
-        <input type="number" name="oldpeak" id="oldpeak" required><br>
 
-        <label for="slope">Slope of the Peak Exercise ST Segment:</label>
-        <select name="slope" id="slope" required>
-            <option value="0">Upsloping</option>
-            <option value="1">Flat</option>
-            <option value="2">Downsloping</option>
-        </select><br>
 
-        <label for="ca">Number of Major Vessels Colored by Flourosopy:</label>
-        <input type="number" name="ca" id="ca" required><br>
 
-        <label for="thal">Thalassemia:</label>
-        <select name="thal" id="thal" required>
-            <option value="1">Normal</option>
-            <option value="2">Fixed Defect</option>
-            <option value="3">Reversible Defect</option>
-        </select><br>
 
-        <button type="submit">Predict Heart Disease</button>
-    </form>
-    {% if diagnosis %}
-        <p>{{ diagnosis }}</p>
-    {% endif %}
+
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+        .formbold-mb-3 {
+          margin-bottom: 15px;
+        }
+        .formbold-relative {
+          position: relative;
+        }
+        .formbold-opacity-0 {
+          opacity: 0;
+        }
+        .formbold-stroke-current {
+          stroke: #ffffff;
+          z-index: 999;
+        }
+        #supportCheckbox:checked ~ div span {
+          opacity: 1;
+        }
+        #supportCheckbox:checked ~ div {
+          background: #6a64f1;
+          border-color: #6a64f1;
+        }
+      
+        .formbold-main-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 48px;
+        }
+      
+        .formbold-form-wrapper {
+          margin: 0 auto;
+          max-width: 570px;
+          width: 100%;
+          background: white;
+          padding: 40px;
+        }
+      
+        .formbold-img {
+          display: block;
+          margin: 0 auto 45px;
+        }
+      
+        .formbold-input-wrapp > div {
+          display: flex;
+          gap: 20px;
+        }
+      
+        .formbold-input-flex {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 15px;
+        }
+        .formbold-input-flex > div {
+          width: 50%;
+        }
+        .formbold-form-input {
+          width: 100%;
+          padding: 13px 22px;
+          border-radius: 5px;
+          border: 1px solid #dde3ec;
+          background: #ffffff;
+          font-weight: 500;
+          font-size: 16px;
+          color: #536387;
+          outline: none;
+          resize: none;
+        }
+        .formbold-form-input::placeholder,
+        select.formbold-form-input,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-text,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-month-field,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-day-field,
+        .formbold-form-input[type='date']::-webkit-datetime-edit-year-field {
+          color: rgba(83, 99, 135, 0.5);
+        }
+      
+        .formbold-form-input:focus {
+          border-color: #6a64f1;
+          box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        .formbold-form-label {
+          color: #536387;
+          font-size: 14px;
+          line-height: 24px;
+          display: block;
+          margin-bottom: 10px;
+        }
+      
+        .formbold-checkbox-label {
+          display: flex;
+          cursor: pointer;
+          user-select: none;
+          font-size: 16px;
+          line-height: 24px;
+          color: #536387;
+        }
+        .formbold-checkbox-label a {
+          margin-left: 5px;
+          color: #6a64f1;
+        }
+        .formbold-input-checkbox {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+        .formbold-checkbox-inner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          margin-right: 16px;
+          margin-top: 2px;
+          border: 0.7px solid #dde3ec;
+          border-radius: 3px;
+        }
+      
+        .formbold-form-file {
+          padding: 12px;
+          font-size: 14px;
+          line-height: 24px;
+          color: rgba(83, 99, 135, 0.5);
+        }
+        .formbold-form-file::-webkit-file-upload-button {
+          display: none;
+        }
+        .formbold-form-file:before {
+          content: 'Upload';
+          display: inline-block;
+          background: #EEEEEE;
+          border: 0.5px solid #E7E7E7;
+          border-radius: 3px;
+          padding: 3px 12px;
+          outline: none;
+          white-space: nowrap;
+          -webkit-user-select: none;
+          cursor: pointer;
+          color: #637381;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          margin-right: 10px;
+        }
+      
+        .formbold-btn {
+          font-size: 16px;
+          border-radius: 5px;
+          padding: 14px 25px;
+          border: none;
+          font-weight: 500;
+          background-color: #6a64f1;
+          color: white;
+          cursor: pointer;
+          margin-top: 25px;
+        }
+        .formbold-btn:hover {
+          box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+        }
+      
+        .formbold-w-45 {
+          width: 45%;
+        }
+      </style>
 </body>
 </html>
