@@ -27,20 +27,20 @@ class _SubsampleMetaSplitter:
         self.subsample_test = subsample_test
         self.random_state = random_state
 
-    def split(self, X, y, **kwargs):
-        for train_idx, test_idx in self.base_cv.split(X, y, **kwargs):
+    def split(self, X, y, groups=None):
+        for train_idx, test_idx in self.base_cv.split(X, y, groups):
             train_idx = resample(
                 train_idx,
                 replace=False,
                 random_state=self.random_state,
-                n_samples=int(self.fraction * len(train_idx)),
+                n_samples=int(self.fraction * train_idx.shape[0]),
             )
             if self.subsample_test:
                 test_idx = resample(
                     test_idx,
                     replace=False,
                     random_state=self.random_state,
-                    n_samples=int(self.fraction * len(test_idx)),
+                    n_samples=int(self.fraction * test_idx.shape[0]),
                 )
             yield train_idx, test_idx
 
@@ -123,7 +123,7 @@ class BaseSuccessiveHalving(BaseSearchCV):
         self.min_resources = min_resources
         self.aggressive_elimination = aggressive_elimination
 
-    def _check_input_parameters(self, X, y, split_params):
+    def _check_input_parameters(self, X, y, groups):
         # We need to enforce that successive calls to cv.split() yield the same
         # splits: see https://github.com/scikit-learn/scikit-learn/issues/15149
         if not _yields_constant_splits(self._checked_cv_orig):
@@ -154,7 +154,7 @@ class BaseSuccessiveHalving(BaseSearchCV):
         self.min_resources_ = self.min_resources
         if self.min_resources_ in ("smallest", "exhaust"):
             if self.resource == "n_samples":
-                n_splits = self._checked_cv_orig.get_n_splits(X, y, **split_params)
+                n_splits = self._checked_cv_orig.get_n_splits(X, y, groups)
                 # please see https://gph.is/1KjihQe for a justification
                 magic_factor = 2
                 self.min_resources_ = n_splits * magic_factor
@@ -215,7 +215,7 @@ class BaseSuccessiveHalving(BaseSearchCV):
         # Halving*SearchCV.estimator is not validated yet
         prefer_skip_nested_validation=False
     )
-    def fit(self, X, y=None, **params):
+    def fit(self, X, y=None, groups=None, **fit_params):
         """Run fit with all sets of parameters.
 
         Parameters
@@ -229,7 +229,12 @@ class BaseSuccessiveHalving(BaseSearchCV):
             Target relative to X for classification or regression;
             None for unsupervised learning.
 
-        **params : dict of string -> object
+        groups : array-like of shape (n_samples,), default=None
+            Group labels for the samples used while splitting the dataset into
+            train/test set. Only used in conjunction with a "Group" :term:`cv`
+            instance (e.g., :class:`~sklearn.model_selection.GroupKFold`).
+
+        **fit_params : dict of string -> object
             Parameters passed to the ``fit`` method of the estimator.
 
         Returns
@@ -241,14 +246,15 @@ class BaseSuccessiveHalving(BaseSearchCV):
             self.cv, y, classifier=is_classifier(self.estimator)
         )
 
-        routed_params = self._get_routed_params_for_fit(params)
         self._check_input_parameters(
-            X=X, y=y, split_params=routed_params.splitter.split
+            X=X,
+            y=y,
+            groups=groups,
         )
 
         self._n_samples_orig = _num_samples(X)
 
-        super().fit(X, y=y, **params)
+        super().fit(X, y=y, groups=groups, **fit_params)
 
         # Set best_score_: BaseSearchCV does not set it, as refit is a callable
         self.best_score_ = self.cv_results_["mean_test_score"][self.best_index_]

@@ -59,7 +59,7 @@ from sklearn.linear_model import (
             ),
             marks=pytest.mark.xfail(reason="Missing importance sampling scheme"),
         ),
-        LogisticRegressionCV(tol=1e-6),
+        LogisticRegressionCV(),
         MultiTaskElasticNet(),
         MultiTaskElasticNetCV(),
         MultiTaskLasso(),

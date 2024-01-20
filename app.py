@@ -70,21 +70,21 @@ def home():
 def diabetes():
     if request.method == 'POST':
         Age = int(request.form['Age'])
-        Gender = int(request.form['Gender'])
-        Polyuria = int(request.form['Polyuria'])
-        Polydipsia = int(request.form['Polydipsia'])
-        Weightloss = int(request.form['Weightloss'])
-        weakness = int(request.form['weakness'])
-        Polyphagia = int(request.form['Polyphagia'])
-        Genitalthrush = int(request.form['Genitalthrush'])
-        visualblurring = int(request.form['visualblurring'])
-        Itching = int(request.form['Itching'])
-        Irritability = int(request.form['Irritability'])
-        delayedhealing = int(request.form['delayedhealing'])
-        partialparesis = int(request.form['partialparesis'])
-        musclestiffness = int(request.form['musclestiffness'])
-        Alopecia = int(request.form['Alopecia'])
-        Obesity = int(request.form['Obesity'])
+        Gender = 1 if request.form['Gender'] == '1' else 0
+        Polyuria = 1 if request.form['Polyuria'] == '1' else 0
+        Polydipsia = 1 if request.form['Polydipsia'] == '1' else 0
+        Weightloss = 1 if request.form['Weightloss'] == '1' else 0
+        weakness = 1 if request.form['weakness'] == '1' else 0
+        Polyphagia = 1 if request.form['Polyphagia'] == '1' else 0
+        Genitalthrush = 1 if request.form['Genitalthrush'] == '1' else 0
+        visualblurring = 1 if request.form['visualblurring'] == '1' else 0
+        Itching = 1 if request.form['Itching'] == '1' else 0
+        Irritability = 1 if request.form['Irritability'] == '1' else 0
+        delayedhealing = 1 if request.form['delayedhealing'] == '1' else 0
+        partialparesis = 1 if request.form['partialparesis'] == '1' else 0
+        musclestiffness = 1 if request.form['musclestiffness'] == '1' else 0
+        Alopecia = 1 if request.form['Alopecia'] == '1' else 0
+        Obesity = 1 if request.form['Obesity'] == '1' else 0
 
         diab_diagnosis = diabetes_prediction([Age, Gender, Polyuria, Polydipsia, Weightloss, weakness, Polyphagia,
                                               Genitalthrush, visualblurring, Itching, Irritability, delayedhealing,
@@ -93,6 +93,7 @@ def diabetes():
         return render_template('diabetes.html', diagnosis=diab_diagnosis)
     else:
         return render_template('diabetes.html')
+
 
 @app.route('/heart_disease', methods=['GET', 'POST'])
 def heart_disease():

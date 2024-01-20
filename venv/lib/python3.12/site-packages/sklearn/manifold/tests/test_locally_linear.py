@@ -134,9 +134,9 @@ def test_pipeline():
 
 # Test the error raised when the weight matrix is singular
 def test_singular_matrix():
-    M = np.ones((200, 3))
+    M = np.ones((10, 3))
     f = ignore_warnings
-    with pytest.raises(ValueError, match="Error in determining null-space with ARPACK"):
+    with pytest.raises(ValueError):
         f(
             manifold.locally_linear_embedding(
                 M,

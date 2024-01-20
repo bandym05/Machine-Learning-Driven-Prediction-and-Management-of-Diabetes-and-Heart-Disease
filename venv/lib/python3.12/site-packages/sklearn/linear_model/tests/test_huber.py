@@ -2,8 +2,7 @@
 # License: BSD 3 clause
 
 import numpy as np
-import pytest
-from scipy import optimize
+from scipy import optimize, sparse
 
 from sklearn.datasets import make_regression
 from sklearn.linear_model import HuberRegressor, LinearRegression, Ridge, SGDRegressor
@@ -13,7 +12,6 @@ from sklearn.utils._testing import (
     assert_array_almost_equal,
     assert_array_equal,
 )
-from sklearn.utils.fixes import CSR_CONTAINERS
 
 
 def make_regression_with_outliers(n_samples=50, n_features=20):
@@ -72,8 +70,7 @@ def test_huber_gradient():
             assert_almost_equal(grad_same, 1e-6, 4)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_huber_sample_weights(csr_container):
+def test_huber_sample_weights():
     # Test sample_weights implementation in HuberRegressor"""
 
     X, y = make_regression_with_outliers()
@@ -107,19 +104,18 @@ def test_huber_sample_weights(csr_container):
     assert_array_almost_equal(huber.intercept_ / scale, huber_intercept / scale)
 
     # Test sparse implementation with sample weights.
-    X_csr = csr_container(X)
+    X_csr = sparse.csr_matrix(X)
     huber_sparse = HuberRegressor()
     huber_sparse.fit(X_csr, y, sample_weight=sample_weight)
     assert_array_almost_equal(huber_sparse.coef_ / scale, huber_coef / scale)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_huber_sparse(csr_container):
+def test_huber_sparse():
     X, y = make_regression_with_outliers()
     huber = HuberRegressor(alpha=0.1)
     huber.fit(X, y)
 
-    X_csr = csr_container(X)
+    X_csr = sparse.csr_matrix(X)
     huber_sparse = HuberRegressor(alpha=0.1)
     huber_sparse.fit(X_csr, y)
     assert_array_almost_equal(huber_sparse.coef_, huber.coef_)

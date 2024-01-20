@@ -1,6 +1,5 @@
 import io
 import warnings
-from itertools import product
 
 import numpy as np
 import pytest
@@ -27,13 +26,6 @@ from sklearn.utils._testing import (
     assert_array_almost_equal,
     assert_array_equal,
 )
-from sklearn.utils.fixes import (
-    BSR_CONTAINERS,
-    COO_CONTAINERS,
-    CSC_CONTAINERS,
-    CSR_CONTAINERS,
-    LIL_CONTAINERS,
-)
 
 
 def _assert_array_equal_and_same_dtype(x, y):
@@ -46,9 +38,7 @@ def _assert_allclose_and_same_dtype(x, y):
     assert x.dtype == y.dtype
 
 
-def _check_statistics(
-    X, X_true, strategy, statistics, missing_values, sparse_container
-):
+def _check_statistics(X, X_true, strategy, statistics, missing_values):
     """Utility function for testing imputation for a given strategy.
 
     Test with dense and sparse arrays
@@ -75,8 +65,8 @@ def _check_statistics(
 
     # Sparse matrix
     imputer = SimpleImputer(missing_values=missing_values, strategy=strategy)
-    imputer.fit(sparse_container(X))
-    X_trans = imputer.transform(sparse_container(X.copy()))
+    imputer.fit(sparse.csc_matrix(X))
+    X_trans = imputer.transform(sparse.csc_matrix(X.copy()))
 
     if sparse.issparse(X_trans):
         X_trans = X_trans.toarray()
@@ -86,14 +76,13 @@ def _check_statistics(
 
 
 @pytest.mark.parametrize("strategy", ["mean", "median", "most_frequent", "constant"])
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_imputation_shape(strategy, csr_container):
+def test_imputation_shape(strategy):
     # Verify the shapes of the imputed matrix for different strategies.
     X = np.random.randn(10, 2)
     X[::2] = np.nan
 
     imputer = SimpleImputer(strategy=strategy)
-    X_imputed = imputer.fit_transform(csr_container(X))
+    X_imputed = imputer.fit_transform(sparse.csr_matrix(X))
     assert X_imputed.shape == (10, 2)
     X_imputed = imputer.fit_transform(X)
     assert X_imputed.shape == (10, 2)
@@ -140,12 +129,11 @@ def test_imputation_deletion_warning_feature_names(strategy):
 
 
 @pytest.mark.parametrize("strategy", ["mean", "median", "most_frequent", "constant"])
-@pytest.mark.parametrize("csc_container", CSC_CONTAINERS)
-def test_imputation_error_sparse_0(strategy, csc_container):
+def test_imputation_error_sparse_0(strategy):
     # check that error are raised when missing_values = 0 and input is sparse
     X = np.ones((3, 5))
     X[0] = 0
-    X = csc_container(X)
+    X = sparse.csc_matrix(X)
 
     imputer = SimpleImputer(strategy=strategy, missing_values=0)
     with pytest.raises(ValueError, match="Provide a dense array"):
@@ -168,8 +156,7 @@ def safe_mean(arr, *args, **kwargs):
     return np.nan if length == 0 else np.mean(arr, *args, **kwargs)
 
 
-@pytest.mark.parametrize("csc_container", CSC_CONTAINERS)
-def test_imputation_mean_median(csc_container):
+def test_imputation_mean_median():
     # Test imputation using the mean and median strategies, when
     # missing_values != 0.
     rng = np.random.RandomState(0)
@@ -233,13 +220,10 @@ def test_imputation_mean_median(csc_container):
 
         X_true = X_true[:, cols_to_keep]
 
-        _check_statistics(
-            X, X_true, strategy, true_statistics, test_missing_values, csc_container
-        )
+        _check_statistics(X, X_true, strategy, true_statistics, test_missing_values)
 
 
-@pytest.mark.parametrize("csc_container", CSC_CONTAINERS)
-def test_imputation_median_special_cases(csc_container):
+def test_imputation_median_special_cases():
     # Test median imputation with sparse boundary cases
     X = np.array(
         [
@@ -268,9 +252,7 @@ def test_imputation_median_special_cases(csc_container):
     ).transpose()
     statistics_median = [0, 5, 0, -2.5, 2.5, 4.5, -4.5, 0.5]
 
-    _check_statistics(
-        X, X_imputed_median, "median", statistics_median, np.nan, csc_container
-    )
+    _check_statistics(X, X_imputed_median, "median", statistics_median, np.nan)
 
 
 @pytest.mark.parametrize("strategy", ["mean", "median"])
@@ -317,8 +299,7 @@ def test_imputation_const_mostf_error_invalid_types(strategy, dtype):
         imputer.fit(X).transform(X)
 
 
-@pytest.mark.parametrize("csc_container", CSC_CONTAINERS)
-def test_imputation_most_frequent(csc_container):
+def test_imputation_most_frequent():
     # Test imputation using the most-frequent strategy.
     X = np.array(
         [
@@ -342,7 +323,7 @@ def test_imputation_most_frequent(csc_container):
     # frequent as promised in the doc but the lowest most frequent. When this
     # test will fail after an update of scipy, SimpleImputer will need to be
     # updated to be consistent with the new (correct) behaviour
-    _check_statistics(X, X_true, "most_frequent", [np.nan, 2, 3, 3], -1, csc_container)
+    _check_statistics(X, X_true, "most_frequent", [np.nan, 2, 3, 3], -1)
 
 
 @pytest.mark.parametrize("marker", [None, np.nan, "NAN", "", 0])
@@ -419,7 +400,7 @@ def test_imputation_constant_integer():
     assert_array_equal(X_trans, X_true)
 
 
-@pytest.mark.parametrize("array_constructor", CSR_CONTAINERS + [np.asarray])
+@pytest.mark.parametrize("array_constructor", [sparse.csr_matrix, np.asarray])
 def test_imputation_constant_float(array_constructor):
     # Test imputation using the constant strategy on floats
     X = np.array(
@@ -1113,27 +1094,23 @@ def test_missing_indicator_error(X_fit, X_trans, params, msg_err):
         indicator.fit(X_fit).transform(X_trans)
 
 
-def _generate_missing_indicator_cases():
-    missing_values_dtypes = [(0, np.int32), (np.nan, np.float64), (-1, np.int32)]
-    arr_types = (
-        [np.array]
-        + CSC_CONTAINERS
-        + CSR_CONTAINERS
-        + COO_CONTAINERS
-        + LIL_CONTAINERS
-        + BSR_CONTAINERS
-    )
-    return [
-        (arr_type, missing_values, dtype)
-        for arr_type, (missing_values, dtype) in product(
-            arr_types, missing_values_dtypes
-        )
-        if not (missing_values == 0 and arr_type is not np.array)
-    ]
-
-
 @pytest.mark.parametrize(
-    "arr_type, missing_values, dtype", _generate_missing_indicator_cases()
+    "missing_values, dtype, arr_type",
+    [
+        (np.nan, np.float64, np.array),
+        (0, np.int32, np.array),
+        (-1, np.int32, np.array),
+        (np.nan, np.float64, sparse.csc_matrix),
+        (-1, np.int32, sparse.csc_matrix),
+        (np.nan, np.float64, sparse.csr_matrix),
+        (-1, np.int32, sparse.csr_matrix),
+        (np.nan, np.float64, sparse.coo_matrix),
+        (-1, np.int32, sparse.coo_matrix),
+        (np.nan, np.float64, sparse.lil_matrix),
+        (-1, np.int32, sparse.lil_matrix),
+        (np.nan, np.float64, sparse.bsr_matrix),
+        (-1, np.int32, sparse.bsr_matrix),
+    ],
 )
 @pytest.mark.parametrize(
     "param_features, n_features, features_indices",
@@ -1185,7 +1162,13 @@ def test_missing_indicator_new(
 
 @pytest.mark.parametrize(
     "arr_type",
-    CSC_CONTAINERS + CSR_CONTAINERS + COO_CONTAINERS + LIL_CONTAINERS + BSR_CONTAINERS,
+    [
+        sparse.csc_matrix,
+        sparse.csr_matrix,
+        sparse.coo_matrix,
+        sparse.lil_matrix,
+        sparse.bsr_matrix,
+    ],
 )
 def test_missing_indicator_raise_on_sparse_with_missing_0(arr_type):
     # test for sparse input and missing_value == 0
@@ -1210,18 +1193,15 @@ def test_missing_indicator_raise_on_sparse_with_missing_0(arr_type):
 
 @pytest.mark.parametrize("param_sparse", [True, False, "auto"])
 @pytest.mark.parametrize(
-    "arr_type, missing_values",
-    [(np.array, 0)]
-    + list(
-        product(
-            CSC_CONTAINERS
-            + CSR_CONTAINERS
-            + COO_CONTAINERS
-            + LIL_CONTAINERS
-            + BSR_CONTAINERS,
-            [np.nan],
-        )
-    ),
+    "missing_values, arr_type",
+    [
+        (np.nan, np.array),
+        (0, np.array),
+        (np.nan, sparse.csc_matrix),
+        (np.nan, sparse.csr_matrix),
+        (np.nan, sparse.coo_matrix),
+        (np.nan, sparse.lil_matrix),
+    ],
 )
 def test_missing_indicator_sparse_param(arr_type, missing_values, param_sparse):
     # check the format of the output with different sparse parameter
@@ -1327,11 +1307,10 @@ def test_missing_indicator_no_missing():
     assert Xt.shape[1] == 0
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_missing_indicator_sparse_no_explicit_zeros(csr_container):
+def test_missing_indicator_sparse_no_explicit_zeros():
     # Check that non missing values don't become explicit zeros in the mask
     # generated by missing indicator when X is sparse. (#13491)
-    X = csr_container([[0, 1, 2], [1, 2, 0], [2, 0, 1]])
+    X = sparse.csr_matrix([[0, 1, 2], [1, 2, 0], [2, 0, 1]])
 
     mi = MissingIndicator(features="all", missing_values=1)
     Xt = mi.fit_transform(X)
@@ -1350,7 +1329,13 @@ def test_imputer_without_indicator(imputer_constructor):
 
 @pytest.mark.parametrize(
     "arr_type",
-    CSC_CONTAINERS + CSR_CONTAINERS + COO_CONTAINERS + LIL_CONTAINERS + BSR_CONTAINERS,
+    [
+        sparse.csc_matrix,
+        sparse.csr_matrix,
+        sparse.coo_matrix,
+        sparse.lil_matrix,
+        sparse.bsr_matrix,
+    ],
 )
 def test_simple_imputation_add_indicator_sparse_matrix(arr_type):
     X_sparse = arr_type([[np.nan, 1, 5], [2, np.nan, 1], [6, 3, np.nan], [1, 2, 9]])

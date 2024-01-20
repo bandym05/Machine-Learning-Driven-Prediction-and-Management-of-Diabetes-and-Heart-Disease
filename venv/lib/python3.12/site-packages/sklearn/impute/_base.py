@@ -5,7 +5,6 @@
 import numbers
 import warnings
 from collections import Counter
-from functools import partial
 
 import numpy as np
 import numpy.ma as ma
@@ -116,13 +115,7 @@ class _BaseImputer(TransformerMixin, BaseEstimator):
         if not self.add_indicator:
             return X_imputed
 
-        if sp.issparse(X_imputed):
-            # sp.hstack may result in different formats between sparse arrays and
-            # matrices; specify the format to keep consistent behavior
-            hstack = partial(sp.hstack, format=X_imputed.format)
-        else:
-            hstack = np.hstack
-
+        hstack = sp.hstack if sp.issparse(X_imputed) else np.hstack
         if X_indicator is None:
             raise ValueError(
                 "Data from the missing indicator are not provided. Call "

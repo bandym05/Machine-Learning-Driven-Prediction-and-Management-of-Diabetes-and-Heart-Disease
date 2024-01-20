@@ -5,6 +5,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 from scipy.linalg import block_diag
+from scipy.sparse import csr_matrix
 from scipy.special import psi
 
 from sklearn.decomposition import LatentDirichletAllocation
@@ -19,25 +20,23 @@ from sklearn.utils._testing import (
     assert_array_almost_equal,
     if_safe_multiprocessing_with_blas,
 )
-from sklearn.utils.fixes import CSR_CONTAINERS
 
 
-def _build_sparse_array(csr_container):
+def _build_sparse_mtx():
     # Create 3 topics and each topic has 3 distinct words.
     # (Each word only belongs to a single topic.)
     n_components = 3
     block = np.full((3, 3), n_components, dtype=int)
     blocks = [block] * n_components
     X = block_diag(*blocks)
-    X = csr_container(X)
+    X = csr_matrix(X)
     return (n_components, X)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_default_prior_params(csr_container):
+def test_lda_default_prior_params():
     # default prior parameter should be `1 / topics`
     # and verbose params should not affect result
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     prior = 1.0 / n_components
     lda_1 = LatentDirichletAllocation(
         n_components=n_components,
@@ -51,11 +50,10 @@ def test_lda_default_prior_params(csr_container):
     assert_almost_equal(topic_distr_1, topic_distr_2)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_fit_batch(csr_container):
+def test_lda_fit_batch():
     # Test LDA batch learning_offset (`fit` method with 'batch' learning)
     rng = np.random.RandomState(0)
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         evaluate_every=1,
@@ -71,11 +69,10 @@ def test_lda_fit_batch(csr_container):
         assert tuple(sorted(top_idx)) in correct_idx_grps
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_fit_online(csr_container):
+def test_lda_fit_online():
     # Test LDA online learning (`fit` method with 'online' learning)
     rng = np.random.RandomState(0)
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         learning_offset=10.0,
@@ -92,12 +89,11 @@ def test_lda_fit_online(csr_container):
         assert tuple(sorted(top_idx)) in correct_idx_grps
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_partial_fit(csr_container):
+def test_lda_partial_fit():
     # Test LDA online learning (`partial_fit` method)
     # (same as test_lda_batch)
     rng = np.random.RandomState(0)
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         learning_offset=10.0,
@@ -113,11 +109,10 @@ def test_lda_partial_fit(csr_container):
         assert tuple(sorted(top_idx)) in correct_idx_grps
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_dense_input(csr_container):
+def test_lda_dense_input():
     # Test LDA with dense input.
     rng = np.random.RandomState(0)
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components, learning_method="batch", random_state=rng
     )
@@ -180,10 +175,9 @@ def test_lda_no_component_error():
 
 
 @if_safe_multiprocessing_with_blas
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
 @pytest.mark.parametrize("method", ("online", "batch"))
-def test_lda_multi_jobs(method, csr_container):
-    n_components, X = _build_sparse_array(csr_container)
+def test_lda_multi_jobs(method):
+    n_components, X = _build_sparse_mtx()
     # Test LDA batch training with multi CPU
     rng = np.random.RandomState(0)
     lda = LatentDirichletAllocation(
@@ -202,11 +196,10 @@ def test_lda_multi_jobs(method, csr_container):
 
 
 @if_safe_multiprocessing_with_blas
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_partial_fit_multi_jobs(csr_container):
+def test_lda_partial_fit_multi_jobs():
     # Test LDA online training with multi CPU
     rng = np.random.RandomState(0)
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         n_jobs=2,
@@ -247,11 +240,10 @@ def test_lda_preplexity_mismatch():
 
 
 @pytest.mark.parametrize("method", ("online", "batch"))
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_perplexity(method, csr_container):
+def test_lda_perplexity(method):
     # Test LDA perplexity for batch training
     # perplexity should be lower after each iteration
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda_1 = LatentDirichletAllocation(
         n_components=n_components,
         max_iter=1,
@@ -279,11 +271,10 @@ def test_lda_perplexity(method, csr_container):
 
 
 @pytest.mark.parametrize("method", ("online", "batch"))
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_score(method, csr_container):
+def test_lda_score(method):
     # Test LDA score for batch training
     # score should be higher after each iteration
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda_1 = LatentDirichletAllocation(
         n_components=n_components,
         max_iter=1,
@@ -306,11 +297,10 @@ def test_lda_score(method, csr_container):
     assert score_2 >= score_1
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_perplexity_input_format(csr_container):
+def test_perplexity_input_format():
     # Test LDA perplexity for sparse and dense input
     # score should be the same for both dense and sparse input
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         max_iter=1,
@@ -324,10 +314,9 @@ def test_perplexity_input_format(csr_container):
     assert_almost_equal(perp_1, perp_2)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_score_perplexity(csr_container):
+def test_lda_score_perplexity():
     # Test the relationship between LDA score and perplexity
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components, max_iter=10, random_state=0
     )
@@ -339,11 +328,10 @@ def test_lda_score_perplexity(csr_container):
     assert_almost_equal(perplexity_1, perplexity_2)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_fit_perplexity(csr_container):
+def test_lda_fit_perplexity():
     # Test that the perplexity computed during fit is consistent with what is
     # returned by the perplexity method
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         max_iter=1,
@@ -362,11 +350,10 @@ def test_lda_fit_perplexity(csr_container):
     assert_almost_equal(perplexity1, perplexity2)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_empty_docs(csr_container):
+def test_lda_empty_docs():
     """Test LDA on empty document (all-zero rows)."""
     Z = np.zeros((5, 4))
-    for X in [Z, csr_container(Z)]:
+    for X in [Z, csr_matrix(Z)]:
         lda = LatentDirichletAllocation(max_iter=750).fit(X)
         assert_almost_equal(
             lda.components_.sum(axis=0), np.ones(lda.components_.shape[1])
@@ -389,10 +376,8 @@ def test_dirichlet_expectation():
     )
 
 
-def check_verbosity(
-    verbose, evaluate_every, expected_lines, expected_perplexities, csr_container
-):
-    n_components, X = _build_sparse_array(csr_container)
+def check_verbosity(verbose, evaluate_every, expected_lines, expected_perplexities):
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(
         n_components=n_components,
         max_iter=3,
@@ -424,19 +409,13 @@ def check_verbosity(
         (True, 2, 3, 1),
     ],
 )
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_verbosity(
-    verbose, evaluate_every, expected_lines, expected_perplexities, csr_container
-):
-    check_verbosity(
-        verbose, evaluate_every, expected_lines, expected_perplexities, csr_container
-    )
+def test_verbosity(verbose, evaluate_every, expected_lines, expected_perplexities):
+    check_verbosity(verbose, evaluate_every, expected_lines, expected_perplexities)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_lda_feature_names_out(csr_container):
+def test_lda_feature_names_out():
     """Check feature names out for LatentDirichletAllocation."""
-    n_components, X = _build_sparse_array(csr_container)
+    n_components, X = _build_sparse_mtx()
     lda = LatentDirichletAllocation(n_components=n_components).fit(X)
 
     names = lda.get_feature_names_out()

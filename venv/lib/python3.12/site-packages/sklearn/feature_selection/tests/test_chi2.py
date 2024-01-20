@@ -8,11 +8,11 @@ import warnings
 import numpy as np
 import pytest
 import scipy.stats
+from scipy.sparse import coo_matrix, csr_matrix
 
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.feature_selection._univariate_selection import _chisquare
 from sklearn.utils._testing import assert_array_almost_equal, assert_array_equal
-from sklearn.utils.fixes import COO_CONTAINERS, CSR_CONTAINERS
 
 # Feature 0 is highly informative for class 1;
 # feature 1 is the same everywhere;
@@ -26,8 +26,7 @@ def mkchi2(k):
     return SelectKBest(chi2, k=k)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_chi2(csr_container):
+def test_chi2():
     # Test Chi2 feature extraction
 
     chi2 = mkchi2(k=1).fit(X, y)
@@ -38,7 +37,7 @@ def test_chi2(csr_container):
     chi2 = mkchi2(k=2).fit(X, y)
     assert_array_equal(sorted(chi2.get_support(indices=True)), [0, 2])
 
-    Xsp = csr_container(X, dtype=np.float64)
+    Xsp = csr_matrix(X, dtype=np.float64)
     chi2 = mkchi2(k=2).fit(Xsp, y)
     assert_array_equal(sorted(chi2.get_support(indices=True)), [0, 2])
     Xtrans = chi2.transform(Xsp)
@@ -50,20 +49,18 @@ def test_chi2(csr_container):
     assert_array_almost_equal(Xtrans, Xtrans2)
 
 
-@pytest.mark.parametrize("coo_container", COO_CONTAINERS)
-def test_chi2_coo(coo_container):
+def test_chi2_coo():
     # Check that chi2 works with a COO matrix
     # (as returned by CountVectorizer, DictVectorizer)
-    Xcoo = coo_container(X)
+    Xcoo = coo_matrix(X)
     mkchi2(k=2).fit_transform(Xcoo, y)
     # if we got here without an exception, we're safe
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_chi2_negative(csr_container):
+def test_chi2_negative():
     # Check for proper error on negative numbers in the input X.
     X, y = [[0, 1], [-1e-20, 1]], [0, 1]
-    for X in (X, np.array(X), csr_container(X)):
+    for X in (X, np.array(X), csr_matrix(X)):
         with pytest.raises(ValueError):
             chi2(X, y)
 

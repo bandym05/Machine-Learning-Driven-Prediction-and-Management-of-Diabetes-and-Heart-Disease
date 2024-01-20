@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from scipy.sparse import issparse
+from scipy.sparse import csr_matrix, issparse
 
 from sklearn.base import BaseEstimator, BiclusterMixin
 from sklearn.cluster import SpectralBiclustering, SpectralCoclustering
@@ -19,7 +19,6 @@ from sklearn.utils._testing import (
     assert_array_almost_equal,
     assert_array_equal,
 )
-from sklearn.utils.fixes import CSR_CONTAINERS
 
 
 class MockBiclustering(BiclusterMixin, BaseEstimator):
@@ -35,12 +34,11 @@ class MockBiclustering(BiclusterMixin, BaseEstimator):
         )
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_get_submatrix(csr_container):
+def test_get_submatrix():
     data = np.arange(20).reshape(5, 4)
     model = MockBiclustering()
 
-    for X in (data, csr_container(data), data.tolist()):
+    for X in (data, csr_matrix(data), data.tolist()):
         submatrix = model.get_submatrix(0, X)
         if issparse(submatrix):
             submatrix = submatrix.toarray()
@@ -60,8 +58,7 @@ def _test_shape_indices(model):
         assert len(j_ind) == n
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_spectral_coclustering(global_random_seed, csr_container):
+def test_spectral_coclustering(global_random_seed):
     # Test Dhillon's Spectral CoClustering on a simple problem.
     param_grid = {
         "svd_method": ["randomized", "arpack"],
@@ -75,7 +72,7 @@ def test_spectral_coclustering(global_random_seed, csr_container):
     )
     S -= S.min()  # needs to be nonnegative before making it sparse
     S = np.where(S < 1, 0, S)  # threshold some values
-    for mat in (S, csr_container(S)):
+    for mat in (S, csr_matrix(S)):
         for kwargs in ParameterGrid(param_grid):
             model = SpectralCoclustering(
                 n_clusters=3, random_state=global_random_seed, **kwargs
@@ -90,8 +87,7 @@ def test_spectral_coclustering(global_random_seed, csr_container):
             _test_shape_indices(model)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_spectral_biclustering(global_random_seed, csr_container):
+def test_spectral_biclustering(global_random_seed):
     # Test Kluger methods on a checkerboard dataset.
     S, rows, cols = make_checkerboard(
         (30, 30), 3, noise=0.5, random_state=global_random_seed
@@ -104,7 +100,7 @@ def test_spectral_biclustering(global_random_seed, csr_container):
         "mini_batch": [True],
     }
 
-    for mat in (S, csr_container(S)):
+    for mat in (S, csr_matrix(S)):
         for param_name, param_values in non_default_params.items():
             for param_value in param_values:
                 model = SpectralBiclustering(
@@ -149,22 +145,20 @@ def _do_bistochastic_test(scaled):
     assert_almost_equal(scaled.sum(axis=0).mean(), scaled.sum(axis=1).mean(), decimal=1)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_scale_normalize(global_random_seed, csr_container):
+def test_scale_normalize(global_random_seed):
     generator = np.random.RandomState(global_random_seed)
     X = generator.rand(100, 100)
-    for mat in (X, csr_container(X)):
+    for mat in (X, csr_matrix(X)):
         scaled, _, _ = _scale_normalize(mat)
         _do_scale_test(scaled)
         if issparse(mat):
             assert issparse(scaled)
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_bistochastic_normalize(global_random_seed, csr_container):
+def test_bistochastic_normalize(global_random_seed):
     generator = np.random.RandomState(global_random_seed)
     X = generator.rand(100, 100)
-    for mat in (X, csr_container(X)):
+    for mat in (X, csr_matrix(X)):
         scaled = _bistochastic_normalize(mat)
         _do_bistochastic_test(scaled)
         if issparse(mat):
@@ -187,12 +181,11 @@ def test_fit_best_piecewise(global_random_seed):
     assert_array_equal(best, vectors[:2])
 
 
-@pytest.mark.parametrize("csr_container", CSR_CONTAINERS)
-def test_project_and_cluster(global_random_seed, csr_container):
+def test_project_and_cluster(global_random_seed):
     model = SpectralBiclustering(random_state=global_random_seed)
     data = np.array([[1, 1, 1], [1, 1, 1], [3, 6, 3], [3, 6, 3]])
     vectors = np.array([[1, 0], [0, 1], [0, 0]])
-    for mat in (data, csr_container(data)):
+    for mat in (data, csr_matrix(data)):
         labels = model._project_and_cluster(mat, vectors, n_clusters=2)
         assert_almost_equal(v_measure_score(labels, [0, 0, 1, 1]), 1.0)
 

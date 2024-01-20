@@ -13,7 +13,7 @@ from sklearn.neighbors._ball_tree import (
     kernel_norm,
 )
 from sklearn.neighbors._ball_tree import (
-    NeighborsHeap64 as NeighborsHeapBT,
+    NeighborsHeap as NeighborsHeapBT,
 )
 from sklearn.neighbors._ball_tree import (
     nodeheap_sort as nodeheap_sort_bt,
@@ -25,7 +25,7 @@ from sklearn.neighbors._kd_tree import (
     KDTree,
 )
 from sklearn.neighbors._kd_tree import (
-    NeighborsHeap64 as NeighborsHeapKDT,
+    NeighborsHeap as NeighborsHeapKDT,
 )
 from sklearn.neighbors._kd_tree import (
     nodeheap_sort as nodeheap_sort_kdt,

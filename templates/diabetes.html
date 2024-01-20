@@ -9,13 +9,99 @@
     <h1>Diabetes Prediction using ML</h1>
     <form action="/diabetes" method="post">
         <!-- Input fields for diabetes prediction -->
-        <!-- Example: Age, Gender, Polyuria, Polydipsia, etc. -->
-        <input type="text" name="Age" placeholder="Age" required>
-        <select name="Gender" required>
+        <label for="Age">Age:</label>
+        <input type="text" name="Age" id="Age" required><br>
+
+        <label for="Gender">Gender:</label>
+        <select name="Gender" id="Gender" required>
             <option value="1">Male</option>
             <option value="0">Female</option>
-        </select>
-        <!-- Add other input fields here -->
+        </select><br>
+
+        <label for="Polyuria">Polyuria - Excessive Urination:</label>
+        <select name="Polyuria" id="Polyuria" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Polydipsia">Polydipsia - Abnormal Thirst Increase:</label>
+        <select name="Polydipsia" id="Polydipsia" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Weightloss">Sudden weight loss:</label>
+        <select name="Weightloss" id="Weightloss" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="weakness">Weakness:</label>
+        <select name="weakness" id="weakness" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Polyphagia">Polyphagia - Excessive Hunger:</label>
+        <select name="Polyphagia" id="Polyphagia" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Genitalthrush">Genital thrush - Itchy, irritation on genitals or thick white discharge on Genital areas:</label>
+        <select name="Genitalthrush" id="Genitalthrush" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="visualblurring">Visual blurring - Difficulty focusing your eyesight:</label>
+        <select name="visualblurring" id="visualblurring" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Itching">Itching:</label>
+        <select name="Itching" id="Itching" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Irritability">Irritability:</label>
+        <select name="Irritability" id="Irritability" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="delayedhealing">Delayed healing:</label>
+        <select name="delayedhealing" id="delayedhealing" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="partialparesis">Partial paresis - Weakening of muscles:</label>
+        <select name="partialparesis" id="partialparesis" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="musclestiffness">Muscle stiffness:</label>
+        <select name="musclestiffness" id="musclestiffness" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Alopecia">Alopecia - Sudden loss of hair:</label>
+        <select name="Alopecia" id="Alopecia" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
+        <label for="Obesity">Obesity:</label>
+        <select name="Obesity" id="Obesity" required>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select><br>
+
         <button type="submit">Predict Diabetes</button>
     </form>
     {% if diagnosis %}

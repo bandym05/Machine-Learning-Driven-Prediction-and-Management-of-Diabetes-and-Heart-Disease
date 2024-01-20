@@ -122,9 +122,6 @@ class PolynomialCountSketch(
     SGDClassifier(max_iter=10)
     >>> clf.score(X_features, y)
     1.0
-
-    For a more detailed example of usage, see
-    :ref:`sphx_glr_auto_examples_kernel_approximation_plot_scalable_poly_kernels.py`
     """
 
     _parameter_constraints: dict = {
@@ -226,7 +223,7 @@ class PolynomialCountSketch(
                     iHashIndex = self.indexHash_[d, j]
                     iHashBit = self.bitHash_[d, j]
                     count_sketches[:, d, iHashIndex] += (
-                        (iHashBit * X_gamma[:, [j]]).toarray().ravel()
+                        (iHashBit * X_gamma[:, j]).toarray().ravel()
                     )
 
         else:
