@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction</title>
+</head>
+<body>
+    <h1>Diabetes Prediction using ML</h1>
+    <form action="/diabetes" method="post">
+        <!-- Input fields for diabetes prediction -->
+        <!-- Example: Age, Gender, Polyuria, Polydipsia, etc. -->
+        <input type="text" name="Age" placeholder="Age" required>
+        <select name="Gender" required>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select>
+        <!-- Add other input fields here -->
+        <button type="submit">Predict Diabetes</button>
+    </form>
+    {% if diagnosis %}
+        <p>{{ diagnosis }}</p>
+    {% endif %}
+</body>
+</html>

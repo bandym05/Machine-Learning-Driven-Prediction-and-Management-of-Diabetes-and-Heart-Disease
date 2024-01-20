@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+</head>
+<body>
+    <h1>Heart Disease Prediction using ML</h1>
+    <form action="/heart_disease" method="post">
+        <!-- Input fields for heart disease prediction -->
+        <!-- Example: Age, Gender, Chest Pain type, Resting Blood Pressure, etc. -->
+        <input type="text" name="age" placeholder="Age" required>
+        <select name="sex" required>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select>
+        <!-- Add other input fields here -->
+        <button type="submit">Predict Heart Disease</button>
+    </form>
+    {% if diagnosis %}
+        <p>{{ diagnosis }}</p>
+    {% endif %}
+</body>
+</html>
