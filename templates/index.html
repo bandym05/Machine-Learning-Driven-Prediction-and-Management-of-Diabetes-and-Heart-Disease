@@ -14,8 +14,8 @@
 
     .banner {
         position: relative;
-        height: 200px; /* Adjust the height as needed */
-        background: url('https://cdn.pixabay.com/photo/2020/10/15/00/47/smartphone-5655715_1280.jpg') center/cover; /* Placeholder image */
+        height: 110px; /* Adjust the height as needed */
+        background: url('https://cdn.pixabay.com/photo/2022/04/06/04/47/ai-7114793_1280.jpg') center/cover; /* Placeholder image */
         text-align: center;
         color: #fff;
         padding: 20px;
@@ -23,9 +23,9 @@
 
     .floating-image {
         position: absolute;
-        top: 150px;
+        top: 130px;
         right: 20px;
-        max-width: 150px; /* Adjust the width as needed */
+        max-width: 200px; /* Adjust the width as needed */
         z-index: 2; /* Ensure it appears above other elements */
     }
 
@@ -41,8 +41,8 @@
         background: linear-gradient(45deg, #FF5370, #ff869a);
     }
 
-    .bg-c-yellow {
-        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    .bg-c-greenish {
+        background: linear-gradient(45deg, #03c754, #82ffc0);
     }
 
     .bg-c-pink {
@@ -75,12 +75,6 @@
     .f-right {
         float: right;
     }
-
-    /* Added CSS to center the cards */
-    .card-container {
-        display: flex;
-        justify-content: center;
-    }
 </style>
 </head>
 <body>
@@ -92,7 +86,7 @@
 
     <div class="container mx-auto mt-4"> <!-- Added mt-4 for top margin -->
         <div class="row">
-            <div class="col-md-4 col-xl-3 card-container"> <!-- Added card-container class -->
+            <div class="col-md-4 col-xl-3">
                 <a href="/diabetes">
                     <div class="card bg-c-blue order-card">
                         <div class="card-block">
@@ -103,13 +97,24 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-4 col-xl-3 card-container"> <!-- Added card-container class -->
+            <div class="col-md-4 col-xl-3">
                 <a href="/heart_disease">
                     <div class="card bg-c-green order-card">
                         <div class="card-block">
                             <h6 class="m-b-20">Heart Disease Prediction</h6>
                             <h2 class="text-right"><i class="fa fa-heartbeat f-left"></i><span>486</span></h2>
                             <p class="m-b-0">Needs Medical expertise<span class="f-right">    </span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-xl-3">
+                <a href="">
+                    <div class="card bg-c-greenish order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Appointments & History</h6>
+                            <h2 class="text-right"><i class="fa fa-heartbeat f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Coming Soon<span class="f-right">    </span></p>
                         </div>
                     </div>
                 </a>
