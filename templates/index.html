@@ -1,116 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCDs Risk Prediction System</title>
-</head>
-<body>
-    <h1>Welcome to NCDs Risk Prediction System</h1>
-    <p>Please select an option to proceed:</p>
-    <ul>
-        <li><a href="/diabetes">Diabetes Prediction</a></li>
-        <li><a href="/heart_disease">Heart Disease Prediction</a></li>
-    </ul>
-</body>
-</html>
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <meta charset="utf-8">
-
-
 <title>Hlola.ai</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <style type="text/css">
-    	body{
-    margin-top:20px;
-    background:#FAFAFA;
-}
-.order-card {
-    color: #fff;
-}
+    body {
+        margin-top: 20px;
+        background: #FAFAFA;
+    }
 
-.bg-c-blue {
-    background: linear-gradient(45deg,#FFB64D,#ffcb80);
-}
+    .order-card {
+        color: #fff;
+    }
 
-.bg-c-green {
-    background: linear-gradient(45deg,#FF5370,#ff869a);
-}
+    .bg-c-blue {
+        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
 
-.bg-c-yellow {
-    background: linear-gradient(45deg,#FFB64D,#ffcb80);
-}
+    .bg-c-green {
+        background: linear-gradient(45deg, #FF5370, #ff869a);
+    }
 
-.bg-c-pink {
-    background: linear-gradient(45deg,#FF5370,#ff869a);
-}
+    .bg-c-yellow {
+        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
 
+    .bg-c-pink {
+        background: linear-gradient(45deg, #FF5370, #ff869a);
+    }
 
-.card {
-    border-radius: 5px;
-    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
-    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
-    border: none;
-    margin-bottom: 30px;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-}
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: none;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
 
-.card .card-block {
-    padding: 25px;
-}
+    .card .card-block {
+        padding: 25px;
+        cursor: pointer; /* Add cursor pointer for better UX */
+    }
 
-.order-card i {
-    font-size: 26px;
-}
+    .order-card i {
+        font-size: 36px;
+    }
 
-.f-left {
-    float: left;
-}
+    .f-left {
+        float: left;
+    }
 
-.f-right {
-    float: right;
-}
-    </style>
+    .f-right {
+        float: right;
+    }
+</style>
 </head>
 <body>
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
-<div class="row">
-<div class="col-md-4 col-xl-3">
-<div class="card bg-c-blue order-card">
-<div class="card-block">
-<h6 class="m-b-20">Diabetes Prediction</h6>
-<h2 class="text-right"><i class="fa fa-leaf f-left"></i><span>486</span></h2>
-<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
-</div>
-</div>
-</div>
-<div class="col-md-4 col-xl-3">
-<div class="card bg-c-green order-card">
-<div class="card-block">
-<h6 class="m-b-20">Heart Disease Prediction</h6>
-<h2 class="text-right"><i class="fa fa-heartbeat f-left"></i><span>486</span></h2>
-<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+    <h1>Welcome to Hlola.ai, NCDs Risk Prediction AI for Eswatini</h1>
+    <p>Please select an option to proceed:</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xl-3">
+                <a href="/diabetes">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Diabetes Prediction</h6>
+                            <h2 class="text-right"><i class="fa fa-leaf f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Can be used at home<span class="f-right">   </span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-xl-3">
+                <a href="/heart_disease">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-block">
+                            <h6 class="m-b-20">Heart Disease Prediction</h6>
+                            <h2 class="text-right"><i class="fa fa-heartbeat f-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Needs Medical expertise<span class="f-right">    </span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
 </body>
 </html>
