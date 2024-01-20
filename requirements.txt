@@ -1,4 +1,4 @@
 Flask
 numpy
-ginicorn
+gunicorn
 joblib
