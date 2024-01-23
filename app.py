@@ -76,7 +76,7 @@ def heart_disease_prediction(input_data):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('/index.html')
 
 @app.route('/diabetes', methods=['GET', 'POST'])
 def diabetes():
