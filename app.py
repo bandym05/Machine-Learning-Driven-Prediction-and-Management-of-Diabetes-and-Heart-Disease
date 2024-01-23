@@ -47,7 +47,7 @@ def diabetes_prediction(input_data):
 
     return result
 
-# Change the heart_disease_prediction function
+# the heart_disease_prediction function
 def heart_disease_prediction(input_data):
     # Convert the data point to a NumPy array
     input_data_np = np.asarray(input_data)
@@ -131,59 +131,59 @@ def heart_disease():
         return render_template('heart_disease.html')
 
 
-#Login
-@app.route('/') 
-@app.route('/login',methods=['POST','GET'])
-def login():
-    status=True
-    if request.method=='POST':
-        email=request.form["email"]
-        pwd=request.form["upass"]
-        cur=mysql.connection.cursor()
-        cur.execute("select * from users where EMAIL=%s and UPASS=%s",(email,pwd))
-        data=cur.fetchone()
-        if data:
-            session['logged_in']=True
-            session['username']=data["UNAME"]
-            flash('Login Successfully','success')
-            return redirect('home')
-        else:
-            flash('Invalid Login. Try Again','danger')
-    return render_template("login.html")
+# #Login
+# @app.route('/') 
+# @app.route('/login',methods=['POST','GET'])
+# def login():
+#     status=True
+#     if request.method=='POST':
+#         email=request.form["email"]
+#         pwd=request.form["upass"]
+#         cur=mysql.connection.cursor()
+#         cur.execute("select * from users where EMAIL=%s and UPASS=%s",(email,pwd))
+#         data=cur.fetchone()
+#         if data:
+#             session['logged_in']=True
+#             session['username']=data["UNAME"]
+#             flash('Login Successfully','success')
+#             return redirect('home')
+#         else:
+#             flash('Invalid Login. Try Again','danger')
+#     return render_template("login.html")
 
-#check if user logged in
-def is_logged_in(f):
-	@wraps(f)
-	def wrap(*args,**kwargs):
-		if 'logged_in' in session:
-			return f(*args,**kwargs)
-		else:
-			flash('Unauthorized, Please Login','danger')
-			return redirect(url_for('login'))
-	return wrap
+# #check if user logged in
+# def is_logged_in(f):
+# 	@wraps(f)
+# 	def wrap(*args,**kwargs):
+# 		if 'logged_in' in session:
+# 			return f(*args,**kwargs)
+# 		else:
+# 			flash('Unauthorized, Please Login','danger')
+# 			return redirect(url_for('login'))
+# 	return wrap
 
-#Registration  
-@app.route('/reg',methods=['POST','GET'])
-def reg():
-    status=False
-    if request.method=='POST':
-        name=request.form["uname"]
-        email=request.form["email"]
-        pwd=request.form["upass"]
-        cur=mysql.connection.cursor()
-        cur.execute("insert into users(UNAME,UPASS,EMAIL) values(%s,%s,%s)",(name,pwd,email))
-        mysql.connection.commit()
-        cur.close()
-        flash('Registration Successfully. Login Here...','success')
-        return redirect('login')
-    return render_template("reg.html",status=status)
+# #Registration  
+# @app.route('/reg',methods=['POST','GET'])
+# def reg():
+#     status=False
+#     if request.method=='POST':
+#         name=request.form["uname"]
+#         email=request.form["email"]
+#         pwd=request.form["upass"]
+#         cur=mysql.connection.cursor()
+#         cur.execute("insert into users(UNAME,UPASS,EMAIL) values(%s,%s,%s)",(name,pwd,email))
+#         mysql.connection.commit()
+#         cur.close()
+#         flash('Registration Successfully. Login Here...','success')
+#         return redirect('login')
+#     return render_template("reg.html",status=status)
 
-#logout
-@app.route("/logout")
-def logout():
-	session.clear()
-	flash('You are now logged out','success')
-	return redirect(url_for('login'))
+# #logout
+# @app.route("/logout")
+# def logout():
+# 	session.clear()
+# 	flash('You are now logged out','success')
+# 	return redirect(url_for('login'))
 
 
 
