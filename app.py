@@ -2,9 +2,6 @@ from flask import Flask, render_template, request
 import numpy as np
 from joblib import load
 
-from flask import Flask,render_template,request,redirect,session,flash,url_for
-from functools import wraps
-from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
