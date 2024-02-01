@@ -5,13 +5,6 @@ from joblib import load
 
 app = Flask(__name__)
 
-#database credentials
-# app.config['MYSQL_HOST']='localhost'
-# app.config['MYSQL_USER']='root'
-# app.config['MYSQL_PASSWORD']=''
-# app.config['MYSQL_DB']='db_sample'
-# app.config['MYSQL_CURSORCLASS']='DictCursor'
-# mysql=MySQL(app)
 
 # loading the saved models
 diabetes_model = load('diabetes/diabetes_model.joblib')
