@@ -55,14 +55,20 @@ A detailed comparative analysis was conducted to identify the best-performing al
 ## User Interface
 **Flask Framework:** The web application was developed using the Flask framework, known for its simplicity and efficiency in transforming data scripts into shareable web apps. Flask allowed for rapid prototyping and easy integration with machine learning models.
 
-**Home page**
+- **Home page**
+  
 ![unnamed](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/a64b4ecb-0e17-4179-aa84-218a40d6a138)
 
+- **Diabetes Prediction page**
+  
 ![unnamed (1)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/a9c20288-442f-4809-a9f4-7e1df2197aa5)
+
+- **Heart-Disease Prediction Page**
 
 ![unnamed (2)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/6b9f2dfa-bd7f-4a2d-a73f-af5b6261ece8)
 
+- **Results Page**
+
 ![unnamed (3)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/66febb88-308b-4d7e-be7c-29340d4d2add)
 
-## Conclusion
-This project aims to empower individuals in managing non-communicable diseases through machine learning-driven predictions. The web application provides a user-friendly interface for predicting diabetes and heart disease risks, contributing to healthcare services in Eswatini and other low- and middle-income settings.
+
