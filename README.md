@@ -4,9 +4,9 @@ Welcome to the repository for the research project "Machine Learning-Driven Pred
 
 # Authors
 
-Bandile Malaza
-Mr T.V. Magagula (Supervisor)
-Dr. Metfula (Secondary Supervisor)
+- **Bandile Malaza**
+- **Mr T.V. Magagula (Supervisor)**
+- **Dr. Metfula (Secondary Supervisor)**
 
 ## Project Overview
 #### This project focuses on leveraging machine learning algorithms to predict and manage diabetes and heart disease. The main objective is to develop a web application that uses predictive models to identify high-risk individuals and provide personalized recommendations for preventive care. The project aims to improve healthcare accessibility and empower healthcare providers to take a proactive approach to managing non-communicable diseases.
