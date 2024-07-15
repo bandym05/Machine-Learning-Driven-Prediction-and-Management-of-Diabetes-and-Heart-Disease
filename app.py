@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,  redirect, url_for
 import numpy as np
 from joblib import load
+import requests
+import json
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 
 app = Flask(__name__)
@@ -10,7 +13,32 @@ app = Flask(__name__)
 diabetes_model = load('diabetes/diabetes_model.joblib')
 heart_disease_model = load('heart/heart_disease_model.joblib')
 
-# Modify the diabetes_prediction function
+# Set up Hugging Face GPT-2 model
+gpt2_model_name = "gpt2"  # You can choose a different GPT-2 variant if needed
+gpt2_tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model_name)
+gpt2_model = GPT2LMHeadModel.from_pretrained(gpt2_model_name)
+
+
+def generate_lifestyle_recommendations(diagnosis, risk_level):
+    prompt = f"As per the diagnosis, the patient has a {risk_level}% risk of {diagnosis}. Based on this, I recommend the following lifestyle changes: "
+
+    # Tokenize the prompt
+    input_ids = gpt2_tokenizer.encode(prompt, return_tensors="pt")
+
+    # Generate text using the GPT-2 model
+    output = gpt2_model.generate(input_ids, max_length=100, num_return_sequences=1, no_repeat_ngram_size=2)
+
+    # Decode the generated text
+    lifestyle_recommendations = gpt2_tokenizer.decode(output[0], skip_special_tokens=True).strip()
+
+    return lifestyle_recommendations
+
+
+
+
+
+
+
 def diabetes_prediction(input_data):
     # Convert the data point to a NumPy array
     input_data_np = np.asarray(input_data)
@@ -32,8 +60,12 @@ def diabetes_prediction(input_data):
     diabetes_threshold = 0.5  # Adjust this threshold based on your model and requirements
     diabetes_level = "High" if diabetes_probability > diabetes_threshold else "Low"
 
+    # Generate lifestyle recommendations based on the diagnosis and risk level
+    lifestyle_recommendations = generate_lifestyle_recommendations("diabetes", diabetes_level)
+
     result = f"The probability of diabetes is {diabetes_probability}\n"
-    result += f"The patient has a {diabetes_level}% risk of diabetes."
+    result += f"You are at a {diabetes_level}% risk of diabetes.\n"
+    result += f"Lifestyle Recommendations: {lifestyle_recommendations}"
 
     return result
 
@@ -59,8 +91,12 @@ def heart_disease_prediction(input_data):
     heart_disease_threshold = 0.5  # Adjust this threshold based on your model and requirements
     heart_disease_level = "High" if heart_disease_probability > heart_disease_threshold else "Low"
 
+    # Generate lifestyle recommendations based on the diagnosis and risk level
+    lifestyle_recommendations = generate_lifestyle_recommendations("heart disease", heart_disease_level)
+
     result = f"The probability of heart disease is {heart_disease_probability}\n"
-    result += f"The patient has a {heart_disease_level}% risk of heart disease."
+    result += f"You are at a {heart_disease_level}% risk of heart disease.\n"
+    result += f"Lifestyle Recommendations: {lifestyle_recommendations}"
 
     return result
 
@@ -92,9 +128,17 @@ def diabetes():
                                               Genitalthrush, visualblurring, Itching, Irritability, delayedhealing,
                                               partialparesis, musclestiffness, Alopecia, Obesity])
 
-        return render_template('diabetes.html', diagnosis=diab_diagnosis)
+        # Redirect to diab_results route with the diagnosis as a query parameter
+        return redirect(url_for('diab_results', diagnosis=diab_diagnosis))
     else:
         return render_template('diabetes.html')
+
+@app.route('/diab_results')
+def diab_results():
+    # Retrieve the diagnosis query parameter from the URL
+    diab_diagnosis = request.args.get('diagnosis')
+
+    return render_template('diab_results.html', diagnosis=diab_diagnosis)
 
 
 @app.route('/heart_disease', methods=['GET', 'POST'])
@@ -116,66 +160,17 @@ def heart_disease():
 
         heart_diagnosis = heart_disease_prediction([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal])
 
-        return render_template('heart_disease.html', diagnosis=heart_diagnosis)
+        # Redirect to heart_results route with the diagnosis as a query parameter
+        return redirect(url_for('heart_results', diagnosis=heart_diagnosis))
     else:
         return render_template('heart_disease.html')
 
+@app.route('/heart_results')
+def heart_results():
+    # Retrieve the diagnosis query parameter from the URL
+    heart_diagnosis = request.args.get('diagnosis')
 
-# #Login
-# @app.route('/') 
-# @app.route('/login',methods=['POST','GET'])
-# def login():
-#     status=True
-#     if request.method=='POST':
-#         email=request.form["email"]
-#         pwd=request.form["upass"]
-#         cur=mysql.connection.cursor()
-#         cur.execute("select * from users where EMAIL=%s and UPASS=%s",(email,pwd))
-#         data=cur.fetchone()
-#         if data:
-#             session['logged_in']=True
-#             session['username']=data["UNAME"]
-#             flash('Login Successfully','success')
-#             return redirect('home')
-#         else:
-#             flash('Invalid Login. Try Again','danger')
-#     return render_template("login.html")
-
-# #check if user logged in
-# def is_logged_in(f):
-# 	@wraps(f)
-# 	def wrap(*args,**kwargs):
-# 		if 'logged_in' in session:
-# 			return f(*args,**kwargs)
-# 		else:
-# 			flash('Unauthorized, Please Login','danger')
-# 			return redirect(url_for('login'))
-# 	return wrap
-
-# #Registration  
-# @app.route('/reg',methods=['POST','GET'])
-# def reg():
-#     status=False
-#     if request.method=='POST':
-#         name=request.form["uname"]
-#         email=request.form["email"]
-#         pwd=request.form["upass"]
-#         cur=mysql.connection.cursor()
-#         cur.execute("insert into users(UNAME,UPASS,EMAIL) values(%s,%s,%s)",(name,pwd,email))
-#         mysql.connection.commit()
-#         cur.close()
-#         flash('Registration Successfully. Login Here...','success')
-#         return redirect('login')
-#     return render_template("reg.html",status=status)
-
-# #logout
-# @app.route("/logout")
-# def logout():
-# 	session.clear()
-# 	flash('You are now logged out','success')
-# 	return redirect(url_for('login'))
-
-
+    return render_template('heart_results.html', diagnosis=heart_diagnosis)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Results</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #dialog-button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #dialog-box {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Disease Results</h1>
+    <p><span style="color: red;">Disclaimer: This is a prediction from the AI model. It may be incorrect sometimes, and it is best to consult a medical expert for further diagnosis!</span></p>
+
+    {% if diagnosis %}
+        <p id="diagnosis">{{ diagnosis }}</p>
+    {% else %}
+        <p>No diagnosis available.</p>
+    {% endif %}
+
+    <button id="dialog-button">Print Results</button>
+
+    <div id="dialog-box">
+        <p id="dialog-content"></p>
+        <button id="dialog-close">Close</button>
+    </div>
+
+    <script>
+        const dialogButton = document.getElementById("dialog-button");
+        const dialogBox = document.getElementById("dialog-box");
+        const dialogContent = document.getElementById("dialog-content");
+        const dialogClose = document.getElementById("dialog-close");
+
+        dialogButton.addEventListener("click", () => {
+            dialogContent.textContent = document.getElementById("diagnosis").textContent;
+            dialogBox.style.display = "block";
+        });
+
+        dialogClose.addEventListener("click", () => {
+            dialogBox.style.display = "none";
+        });
+    </script>
+</body>
+</html>
