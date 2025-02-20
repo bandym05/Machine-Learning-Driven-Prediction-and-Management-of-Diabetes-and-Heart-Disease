@@ -1,12 +1,18 @@
-# Machine Learning-Driven Prediction and Management of Diabetes and Heart Disease
+# AI-Enhanced Health Management: Combining Predictive Analytics, LLM, and RAG-Driven Support for Diabetes and Heart Disease in Eswatini
+
+## Demo Video is from a more improved and advanced version of this System: powered by Llamma 3.1 and Retrival Augmented Generation (RAG) Support
+
+
+
+https://github.com/user-attachments/assets/c568987c-bb15-4521-9be1-685368d7dc8d
+
+
 
 Welcome to the repository for the research project "Machine Learning-Driven Prediction and Management of Diabetes and Heart Disease" by Bandile Malaza, submitted for the Bachelor of Science in Information Technology at the University of Eswatini.
 
 # Authors
 
 - **Bandile Malaza**
-- **Mr T.V. Magagula (Supervisor)**
-- **Dr. Metfula (Secondary Supervisor)**
 
 ## Project Overview
 #### This project focuses on leveraging machine learning algorithms to predict and manage diabetes and heart disease. The main objective is to develop a web application that uses predictive models to identify high-risk individuals and provide personalized recommendations for preventive care. The project aims to improve healthcare accessibility and empower healthcare providers to take a proactive approach to managing non-communicable diseases.
@@ -54,18 +60,6 @@ A detailed comparative analysis was conducted to identify the best-performing al
   
 ## User Interface
 **Flask Framework:** The web application was developed using the Flask framework, known for its simplicity and efficiency in transforming data scripts into shareable web apps. Flask allowed for rapid prototyping and easy integration with machine learning models.
-
-- **Home page**
-  
-![unnamed](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/a64b4ecb-0e17-4179-aa84-218a40d6a138)
-
-- **Diabetes Prediction page**
-  
-![unnamed (1)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/a9c20288-442f-4809-a9f4-7e1df2197aa5)
-
-- **Heart-Disease Prediction Page**
-
-![unnamed (2)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/6b9f2dfa-bd7f-4a2d-a73f-af5b6261ece8)
 
 - **Results Page**
 
