@@ -61,8 +61,3 @@ A detailed comparative analysis was conducted to identify the best-performing al
 ## User Interface
 **Flask Framework:** The web application was developed using the Flask framework, known for its simplicity and efficiency in transforming data scripts into shareable web apps. Flask allowed for rapid prototyping and easy integration with machine learning models.
 
-- **Results Page**
-
-![unnamed (3)](https://github.com/bandym05/Machine-Learning-based-Diabetes-and-Heart-Disease-Prediction-with-Personalisation-Features/assets/58115126/66febb88-308b-4d7e-be7c-29340d4d2add)
-
-
